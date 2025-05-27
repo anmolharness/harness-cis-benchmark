@@ -1,4 +1,3 @@
-# harness-cis-benchmark
 # Harness CIS Benchmark CLI 🔒
 
 This is a Python-based CLI tool to audit your Harness NextGen account against custom CIS-style security benchmarks.
