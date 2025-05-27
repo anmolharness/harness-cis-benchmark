@@ -8,7 +8,7 @@ It checks for security and access control best practices across:
 - ✅ 2FA enforcement
 - ✅ Password policies
 - ✅ RBAC hygiene (no direct user roles)
-- ✅ Service account token expiration
+- ✅ Service account token expiration - WIP
 - ✅ Org & project scope violations
 - ✅ JSON + HTML reporting
 
