@@ -39,6 +39,33 @@ It checks for security, access control, and operational best practices across:
 
 ---
 
+## 🧪 Testing
+
+Comprehensive unit test suite with 50+ tests covering:
+- Data collection and caching (3-6x performance optimization)
+- Database persistence and remediation tracking
+- Check function logic for all 23 checks
+- Dashboard API endpoints
+- Harness API wrapper
+
+```bash
+# Install test dependencies
+pip install -r requirements-dev.txt
+
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=. --cov-report=html
+
+# View coverage report
+open htmlcov/index.html
+```
+
+See [tests/README.md](tests/README.md) for detailed testing documentation.
+
+---
+
 ## 📦 Installation
 
 ### 🔧 Clone the repo

@@ -1,1 +1,64 @@
+# Environment files
 .env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Reports
+results.json
+results.html
+results_expanded.json
+results_expanded.html
+harness_cis_report.html
+
+# Test files (development only)
+test_delegates.py
+test_delegates2.py
+test_delegates3.py
+find_delegate_api.py
+fix_delegate_api.py
+test-dashboard.html
+
+# Generated files
+*.pptx
+generate_presentation.py
