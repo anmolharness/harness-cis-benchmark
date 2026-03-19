@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  harness-cis-dashboard:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - HARNESS_API_KEY=${HARNESS_API_KEY}
+      - HARNESS_ACCOUNT_ID=${HARNESS_ACCOUNT_ID}
+      - FLASK_ENV=production
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add nginx reverse proxy for SSL
+  # nginx:
+  #   image: nginx:alpine
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - ./ssl:/etc/nginx/ssl
+  #   depends_on:
+  #     - harness-cis-dashboard

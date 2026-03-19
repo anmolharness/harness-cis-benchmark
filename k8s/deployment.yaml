@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harness-cis-dashboard
+  namespace: harness-cis
+  labels:
+    app: harness-cis-dashboard
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harness-cis-dashboard
+  template:
+    metadata:
+      labels:
+        app: harness-cis-dashboard
+        version: "1.0.0"
+    spec:
+      containers:
+      - name: dashboard
+        image: harness-cis-benchmark:1.0.1
+        imagePullPolicy: Never  # Use local image
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        env:
+        - name: HARNESS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: harness-credentials
+              key: HARNESS_API_KEY
+        - name: HARNESS_ACCOUNT_ID
+          valueFrom:
+            secretKeyRef:
+              name: harness-credentials
+              key: HARNESS_ACCOUNT_ID
+        - name: FLASK_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: harness-cis-data

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harness CIS Benchmark Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=1.0.1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Harness CIS Benchmark Dashboard</h1>
+            <div class="header-actions">
+                <button id="runScanBtn" class="btn btn-primary">🔄 Run New Scan</button>
+                <button id="refreshBtn" class="btn btn-secondary">↻ Refresh</button>
+            </div>
+        </header>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Running benchmark scan...</p>
+        </div>
+
+        <div id="error" class="error hidden"></div>
+
+        <div id="dashboard" class="hidden">
+            <!-- Summary Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <h3>Compliance Score</h3>
+                        <div class="metric-value" id="complianceScore">-</div>
+                        <div class="metric-subtitle" id="compliancePoints">- / -</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">✅</div>
+                    <div class="metric-content">
+                        <h3>Passed Checks</h3>
+                        <div class="metric-value" id="passedChecks">-</div>
+                        <div class="metric-subtitle" id="totalChecks">out of -</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">❌</div>
+                    <div class="metric-content">
+                        <h3>Failed Checks</h3>
+                        <div class="metric-value" id="failedChecks">-</div>
+                        <div class="metric-subtitle" id="criticalFailures">- critical</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🕐</div>
+                    <div class="metric-content">
+                        <h3>Last Scan</h3>
+                        <div class="metric-value small" id="lastScan">-</div>
+                        <div class="metric-subtitle" id="scanStatus">No data</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Compliance by Category</h3>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Overall Status</h3>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Trends Section -->
+            <div id="trendsSection" class="section-card hidden">
+                <h3>📈 Compliance Trend</h3>
+                <canvas id="trendsChart"></canvas>
+            </div>
+
+            <!-- Critical Failures -->
+            <div class="section-card" id="criticalSection">
+                <h3>🚨 Critical Failures</h3>
+                <div id="criticalFailuresList"></div>
+            </div>
+
+            <!-- All Checks Table -->
+            <div class="section-card">
+                <h3>📋 All Checks</h3>
+                <div class="filter-bar">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="PASS">Passed</option>
+                        <option value="FAIL">Failed</option>
+                    </select>
+                    <select id="levelFilter">
+                        <option value="">All Levels</option>
+                        <option value="3">Critical (Level 3)</option>
+                        <option value="2">Medium (Level 2)</option>
+                        <option value="1">Low (Level 1)</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="checksTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Level</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checksTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check Details Modal -->
+    <div id="checkModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckModal()">&times;</span>
+            <div id="modalCheckContent"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}?v=1.0.2"></script>
+</body>
+</html>
